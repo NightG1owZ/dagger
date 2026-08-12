@@ -1,0 +1,48 @@
+[project]
+name = "dagger"
+version = "0.1.0"
+description = "HTTP API Stress Testing CLI Tool — JMeter-comparable functionality with a sqlmap-style interface"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+authors = [
+    {name = "Dagger Contributors"}
+]
+keywords = ["stress-testing", "performance", "http", "cli", "load-testing"]
+
+dependencies = [
+    "aiohttp>=3.9",
+    "rich>=13.0",
+    "pyyaml>=6.0",
+    "jinja2>=3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "pytest-cov>=4.0",
+    "aioresponses>=0.7",
+    "ruff>=0.3",
+]
+
+[project.scripts]
+dagger = "dagger.__main__:main"
+
+[project.entry-points."dagger.plugins"]
+auth_bearer = "dagger.plugins.builtin.auth_bearer:AuthBearerPlugin"
+request_recorder = "dagger.plugins.builtin.request_recorder:RequestRecorderPlugin"
+
+[tool.dagger]
+# Default test configuration (overridable via CLI)
+# target_url = "https://httpbin.org/get"
+# concurrency = 10
+# duration = "30s"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

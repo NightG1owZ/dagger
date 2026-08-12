@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dagger Stress Test Report - {{ config.get('url', 'N/A') }}</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; background: #0d1117; color: #c9d1d9; padding: 24px; line-height: 1.5; }
+.container { max-width: 1200px; margin: 0 auto; }
+h1 { color: #58a6ff; font-size: 1.8em; margin-bottom: 8px; }
+.subtitle { color: #8b949e; font-size: 0.9em; margin-bottom: 24px; }
+h2 { color: #8b949e; font-size: 1.0em; text-transform: uppercase; letter-spacing: 0.5px; margin: 32px 0 12px; border-bottom: 1px solid #21262d; padding-bottom: 8px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 28px; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 18px 16px; text-align: center; }
+.card .value { font-size: 1.7em; font-weight: 700; color: #58a6ff; }
+.card .label { font-size: 0.8em; color: #8b949e; margin-top: 4px; }
+.chart-box { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+.chart-box canvas { max-height: 300px; }
+table { width: 100%; border-collapse: collapse; background: #161b22; border: 1px solid #30363d; border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9em; }
+th { background: #1c2333; color: #58a6ff; font-weight: 600; }
+tr:not(:last-child) td { border-bottom: 1px solid #21262d; }
+tr:hover td { background: #1a1f2b; }
+.success { color: #3fb950; }
+.warning { color: #d29922; }
+.error { color: #f85149; }
+.muted { color: #8b949e; }
+.footer { text-align: center; color: #484f58; margin-top: 40px; font-size: 0.8em; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Dagger Stress Test Report</h1>
+<div class="subtitle">
+  Target: <strong>{{ config.get('method', 'GET') }} {{ config.get('url', 'N/A') }}</strong> &middot;
+  Concurrency: {{ config.get('concurrency', 'N/A') }} &middot;
+  Duration: {{ "%.1f"|format(duration) }}s
+  {% if config.get('tags') %}&middot; Tags: {{ config.get('tags', [])|join(', ') }}{% endif %}
+</div>
+
+<div class="cards">
+  <div class="card"><div class="value">{{ total_requests }}</div><div class="label">Total Requests</div></div>
+  <div class="card"><div class="value {{ 'success' if success_rate >= 99 else 'warning' if success_rate >= 95 else 'error' }}">{{ "%.1f"|format(success_rate) }}%</div><div class="label">Success Rate</div></div>
+  <div class="card"><div class="value">{{ "%.1f"|format(avg_rps) }}</div><div class="label">Avg Throughput (RPS)</div></div>
+  <div class="card"><div class="value">{{ "%.1f"|format(peak_rps) }}</div><div class="label">Peak Throughput (RPS)</div></div>
+  <div class="card"><div class="value">{{ "%.0f"|format(latencies.p95) }} ms</div><div class="label">P95 Latency</div></div>
+  <div class="card"><div class="value">{{ "%.0f"|format(latencies.p99) }} ms</div><div class="label">P99 Latency</div></div>
+</div>
+
+<div class="grid-2">
+  <div>
+    <h2>Throughput Over Time</h2>
+    <div class="chart-box"><canvas id="rpsChart"></canvas></div>
+  </div>
+  <div>
+    <h2>Latency Over Time</h2>
+    <div class="chart-box"><canvas id="latencyTimeChart"></canvas></div>
+  </div>
+</div>
+
+<h2>Latency Distribution</h2>
+<div class="chart-box"><canvas id="histogramChart"></canvas></div>
+
+<div class="grid-2">
+  <div>
+    <h2>Latency Percentiles</h2>
+    <table>
+      <tr><th>Percentile</th><th class="muted" style="text-align:right">Latency (ms)</th></tr>
+      <tr><td>Min</td><td style="text-align:right">{{ "%.1f"|format(latencies.min) }}</td></tr>
+      <tr><td>P50 (Median)</td><td style="text-align:right">{{ "%.1f"|format(latencies.p50) }}</td></tr>
+      <tr><td>P75</td><td style="text-align:right">{{ "%.1f"|format(latencies.p75) }}</td></tr>
+      <tr><td>P90</td><td style="text-align:right">{{ "%.1f"|format(latencies.p90) }}</td></tr>
+      <tr><td>P95</td><td style="text-align:right">{{ "%.1f"|format(latencies.p95) }}</td></tr>
+      <tr><td>P99</td><td style="text-align:right">{{ "%.1f"|format(latencies.p99) }}</td></tr>
+      <tr><td>P99.9</td><td style="text-align:right">{{ "%.1f"|format(latencies.p99_9) }}</td></tr>
+      <tr><td>Max</td><td style="text-align:right">{{ "%.1f"|format(latencies.max) }}</td></tr>
+      <tr><td>Mean</td><td style="text-align:right">{{ "%.1f"|format(latencies.mean) }}</td></tr>
+    </table>
+  </div>
+  <div>
+    {% if status_codes %}
+    <h2>Status Codes</h2>
+    <table>
+      <tr><th>Code</th><th style="text-align:right">Count</th><th style="text-align:right">Rate</th></tr>
+      {% for code, count in status_codes.items()|sort %}
+      <tr>
+        <td><span class="{{ 'success' if code|int < 300 else 'warning' if code|int < 400 else 'error' }}">{{ code }}</span></td>
+        <td style="text-align:right">{{ count }}</td>
+        <td style="text-align:right">{{ "%.1f"|format(count / total_requests * 100) if total_requests else 0 }}%</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+
+    {% if errors %}
+    <h2>Errors</h2>
+    <table>
+      <tr><th>Error Type</th><th style="text-align:right">Count</th><th style="text-align:right">Rate</th></tr>
+      {% for err in errors[:15] %}
+      <tr>
+        <td class="error">{{ err.type }}</td>
+        <td style="text-align:right">{{ err.count }}</td>
+        <td style="text-align:right">{{ "%.1f"|format(err.percentage) }}%</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+  </div>
+</div>
+
+<div class="footer">Generated by Dagger v0.1.0</div>
+
+</div>
+
+<script>
+const chartDefaults = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: { legend: { labels: { color: '#8b949e', usePointStyle: true } } },
+  scales: {
+    x: { ticks: { color: '#8b949e', maxTicksLimit: 15 }, grid: { color: '#21262d' } },
+    y: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' } }
+  }
+};
+
+// Histogram
+(function() {
+  const data = JSON.parse('{{ histogram_json | safe }}');
+  const ctx = document.getElementById('histogramChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(d => d.x),
+      datasets: [{
+        label: 'Requests',
+        data: data.map(d => d.y),
+        backgroundColor: data.map((_, i) => {
+          const colors = ['#238636','#2ea043','#3fb950','#56d364','#7ee787','#d29922','#f85149'];
+          return colors[Math.min(i, colors.length - 1)];
+        }),
+        borderRadius: 3,
+      }]
+    },
+    options: { ...chartDefaults, plugins: { legend: { display: false } } }
+  });
+})();
+
+// RPS & Error Rate over time
+(function() {
+  const ts = JSON.parse('{{ timeseries_json | safe }}');
+  const ctx = document.getElementById('rpsChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ts.map(d => d.elapsed + 's'),
+      datasets: [
+        {
+          label: 'RPS',
+          data: ts.map(d => d.rps),
+          borderColor: '#58a6ff',
+          backgroundColor: 'rgba(88, 166, 255, 0.08)',
+          fill: true, tension: 0.3, yAxisID: 'y',
+        },
+        {
+          label: 'Error %',
+          data: ts.map(d => d.error_rate),
+          borderColor: '#f85149',
+          backgroundColor: 'rgba(248, 81, 73, 0.06)',
+          fill: true, tension: 0.3, yAxisID: 'y1',
+        }
+      ]
+    },
+    options: {
+      ...chartDefaults,
+      scales: {
+        x: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' } },
+        y: { type: 'linear', position: 'left', ticks: { color: '#58a6ff' }, grid: { color: '#21262d' }, title: { display: true, text: 'RPS', color: '#58a6ff' } },
+        y1: { type: 'linear', position: 'right', ticks: { color: '#f85149', callback: v => v + '%' }, grid: { display: false }, title: { display: true, text: 'Error Rate', color: '#f85149' } }
+      }
+    }
+  });
+})();
+
+// Latency percentiles over time
+(function() {
+  const ts = JSON.parse('{{ p50_series_json | safe }}');
+  const ctx = document.getElementById('latencyTimeChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ts.map(d => d.elapsed + 's'),
+      datasets: [{
+        label: 'P50',
+        data: ts.map(d => d.value),
+        borderColor: '#3fb950', borderWidth: 1.5, tension: 0.3, pointRadius: 0,
+      }]
+    },
+    options: {
+      ...chartDefaults,
+      scales: {
+        x: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' } },
+        y: { ticks: { color: '#8b949e', callback: v => v + 'ms' }, grid: { color: '#21262d' } }
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

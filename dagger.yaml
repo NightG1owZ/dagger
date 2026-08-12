@@ -1,0 +1,58 @@
+# dagger.yaml — Example Dagger stress test configuration
+# All values are optional and can be overridden by CLI flags.
+# Run with: dagger run --config-file dagger.yaml
+
+# Target endpoint configuration
+target:
+  url: "https://httpbin.org/get"
+  method: GET
+  # headers:
+  #   Authorization: "Bearer ${API_TOKEN}"
+  #   Accept: "application/json"
+  # json_body:
+  #   key: value
+  # form_fields:
+  #   username: testuser
+  #   password: secret
+  # body: "raw request body text"
+  # cookies:
+  #   session_id: "abc123"
+
+# Load / concurrency settings
+load:
+  concurrency: 10
+  duration: "30s"
+  # total_requests: 10000         # Alternative to duration
+  # ramp_up: "10s"                # Gradual ramp-up period
+  # ramp_down: "5s"               # Gradual ramp-down period
+  # ramp_strategy: linear          # linear | step
+  # rate_limit: 100               # Requests per second cap (0=unlimited)
+
+# Request-level settings
+request:
+  # timeout: "30s"
+  # connect_timeout: "10s"
+  # keep_alive: true
+  # verify_ssl: true
+  # follow_redirects: false
+  # max_retries: 3
+  # retry_delay: "1000ms"
+
+# Output settings
+output:
+  # directory: "./results"
+  formats: [text, json, html]
+  # live_refresh_ms: 200
+  # no_live: false
+  # sample_rate: 1
+
+# Tags for organizing test results
+tags: [example, smoke-test]
+
+# Plugin configurations
+# plugins:
+#   auth_bearer:
+#     token_endpoint: "https://auth.example.com/oauth/token"
+#     client_id: "my-client"
+#     client_secret: "my-secret"
+#     refresh_interval: "300s"

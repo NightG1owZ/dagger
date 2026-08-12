@@ -1,0 +1,6 @@
+[console_scripts]
+dagger = dagger.__main__:main
+
+[dagger.plugins]
+auth_bearer = dagger.plugins.builtin.auth_bearer:AuthBearerPlugin
+request_recorder = dagger.plugins.builtin.request_recorder:RequestRecorderPlugin

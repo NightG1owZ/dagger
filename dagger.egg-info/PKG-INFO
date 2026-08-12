@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: dagger
+Version: 0.1.0
+Summary: HTTP API Stress Testing CLI Tool — JMeter-comparable functionality with a sqlmap-style interface
+Author: Dagger Contributors
+License: MIT
+Keywords: stress-testing,performance,http,cli,load-testing
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: aiohttp>=3.9
+Requires-Dist: rich>=13.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: jinja2>=3.1
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.23; extra == "dev"
+Requires-Dist: pytest-cov>=4.0; extra == "dev"
+Requires-Dist: aioresponses>=0.7; extra == "dev"
+Requires-Dist: ruff>=0.3; extra == "dev"

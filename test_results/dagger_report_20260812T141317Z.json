@@ -1,0 +1,124 @@
+{
+  "config": {
+    "url": "https://httpbin.org/get",
+    "method": "GET",
+    "concurrency": 5,
+    "duration": 5.0,
+    "total_requests": 0,
+    "tags": []
+  },
+  "duration_seconds": 5.844000000000051,
+  "total_requests": 54,
+  "successful": 0,
+  "failed": 54,
+  "success_rate": 0.0,
+  "avg_rps": 9.24,
+  "peak_rps": 14.63,
+  "latency_ms": {
+    "min": 203.0,
+    "p50": 226.5,
+    "p75": 246.25,
+    "p90": 1034.2,
+    "p95": 1495.2,
+    "p99": 2194.64,
+    "p99_9": 2581.96,
+    "max": 2625.0,
+    "mean": 447.04,
+    "stddev": 493.1,
+    "count": 54
+  },
+  "status_codes": {
+    "503": 54
+  },
+  "errors": [],
+  "bytes_received": 8748,
+  "bytes_sent": 0,
+  "histogram_buckets": [
+    {
+      "boundary_ms": 210.0,
+      "count": 4
+    },
+    {
+      "boundary_ms": 220.0,
+      "count": 23
+    },
+    {
+      "boundary_ms": 240.0,
+      "count": 13
+    },
+    {
+      "boundary_ms": 250.0,
+      "count": 1
+    },
+    {
+      "boundary_ms": 660.0,
+      "count": 1
+    },
+    {
+      "boundary_ms": 690.0,
+      "count": 2
+    },
+    {
+      "boundary_ms": 720.0,
+      "count": 2
+    },
+    {
+      "boundary_ms": 740.0,
+      "count": 1
+    },
+    {
+      "boundary_ms": 750.0,
+      "count": 1
+    },
+    {
+      "boundary_ms": 2000.0,
+      "count": 5
+    },
+    {
+      "boundary_ms": 3000.0,
+      "count": 1
+    }
+  ],
+  "time_series": [
+    {
+      "elapsed": 1.17,
+      "rps": 0.85,
+      "p50_ms": 0.0,
+      "p90_ms": 0.0,
+      "p99_ms": 0.0,
+      "error_rate": 100.0
+    },
+    {
+      "elapsed": 2.27,
+      "rps": 14.63,
+      "p50_ms": 0.0,
+      "p90_ms": 0.0,
+      "p99_ms": 0.0,
+      "error_rate": 100.0
+    },
+    {
+      "elapsed": 3.36,
+      "rps": 11.89,
+      "p50_ms": 0.0,
+      "p90_ms": 0.0,
+      "p99_ms": 0.0,
+      "error_rate": 100.0
+    },
+    {
+      "elapsed": 4.36,
+      "rps": 12.0,
+      "p50_ms": 0.0,
+      "p90_ms": 0.0,
+      "p99_ms": 0.0,
+      "error_rate": 100.0
+    },
+    {
+      "elapsed": 5.84,
+      "rps": 8.08,
+      "p50_ms": 0.0,
+      "p90_ms": 0.0,
+      "p99_ms": 0.0,
+      "error_rate": 100.0
+    }
+  ]
+}
