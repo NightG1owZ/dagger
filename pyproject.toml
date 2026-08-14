@@ -15,6 +15,8 @@ dependencies = [
     "rich>=13.0",
     "pyyaml>=6.0",
     "jinja2>=3.1",
+    "javalang>=0.13",
+    "click>=8.1",
 ]
 
 [project.optional-dependencies]
@@ -28,6 +30,7 @@ dev = [
 
 [project.scripts]
 dagger = "dagger.__main__:main"
+perf-tool = "perfscanner.__main__:main"
 
 [project.entry-points."dagger.plugins"]
 auth_bearer = "dagger.plugins.builtin.auth_bearer:AuthBearerPlugin"

@@ -35,6 +35,7 @@ def build_root_parser() -> argparse.ArgumentParser:
                "  dagger run -u https://api.example.com/health -c 50 -d 60s\n"
                "  dagger run -u https://api.example.com/api -X POST --json '{\"key\":\"val\"}' -c 10 -d 30s\n"
                "  dagger run -u https://api.example.com/api -c 100 -d 5m --ramp-up 30s -f html -o ./results\n"
+               "  dagger scan ./spring-boot-project --base-url http://localhost:8101/api\n"
                "  dagger config\n"
                "  dagger plugins list",
     )
@@ -254,6 +255,56 @@ def build_root_parser() -> argparse.ArgumentParser:
     subparsers.add_parser(
         "version",
         help="Show version and environment info",
+    )
+
+    # ---- dagger scan ----
+    scan_parser = subparsers.add_parser(
+        "scan",
+        help="Scan a Java project and rank its API endpoints by P95 latency",
+        description="Static-scan a Spring Boot project's Controller layer, load-test "
+                    "the discovered endpoints, and emit a slow-to-fast ranking report.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    scan_parser.add_argument(
+        "project_path", type=Path, metavar="PROJECT",
+        help="Path to the Java project directory",
+    )
+    scan_parser.add_argument(
+        "-b", "--base-url", type=str, required=True, metavar="URL",
+        help="Target server base URL incl. protocol/host/port "
+             "(e.g. http://localhost:8101/api)",
+    )
+    scan_parser.add_argument(
+        "--git-diff", type=str, default=None, metavar="RANGE",
+        help="Git range for incremental scan (e.g. main..HEAD)",
+    )
+    scan_parser.add_argument(
+        "-c", "--max-parallel", type=int, default=5, metavar="N",
+        help="Endpoints load-tested simultaneously (default: 5)",
+    )
+    scan_parser.add_argument(
+        "--quick-requests", type=int, default=50, metavar="N",
+        help="Phase-1 requests per endpoint (default: 50)",
+    )
+    scan_parser.add_argument(
+        "-n", "--deep-requests", type=int, default=2000, metavar="N",
+        help="Phase-2 requests per slow endpoint (default: 2000)",
+    )
+    scan_parser.add_argument(
+        "--deep-threshold", type=float, default=20.0, metavar="N",
+        help="Top-N slow endpoints entering phase 2 (count, or 0-1 fraction; default: 20)",
+    )
+    scan_parser.add_argument(
+        "-t", "--timeout", type=float, default=30.0, metavar="SECONDS",
+        help="Per-request timeout in seconds (default: 30)",
+    )
+    scan_parser.add_argument(
+        "-o", "--output", type=Path, default=Path("./perf_results"), metavar="DIR",
+        help="Output directory (default: ./perf_results)",
+    )
+    scan_parser.add_argument(
+        "--open", action="store_true", default=False,
+        help="Open the HTML report in a browser after generation",
     )
 
     return parser

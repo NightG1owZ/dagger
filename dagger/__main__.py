@@ -40,8 +40,15 @@ def main() -> None:
         asyncio.run(_run_test(args))
         return
 
+    if args.subcommand == "scan":
+        if not args.project_path.exists():
+            print(f"Error: project path does not exist: {args.project_path}", file=sys.stderr)
+            return
+        asyncio.run(_run_scan(args))
+        return
+
     # No subcommand or unknown
-    print("Usage: dagger [run|config|plugins|version] [OPTIONS]")
+    print("Usage: dagger [run|scan|config|plugins|version] [OPTIONS]")
     print("Try 'dagger --help' for more information.")
 
 
@@ -122,6 +129,24 @@ async def _run_test(args) -> None:
     # Generate reports
     if not config.no_summary:
         _export_reports(summary, config)
+
+
+async def _run_scan(args) -> None:
+    """Scan a Java project and rank endpoints by P95 latency."""
+    from perfscanner.core import run_scan
+
+    await run_scan(
+        args.project_path,
+        args.base_url,
+        git_diff=args.git_diff,
+        max_parallel=args.max_parallel,
+        quick_requests=args.quick_requests,
+        deep_requests=args.deep_requests,
+        deep_threshold=args.deep_threshold,
+        timeout=args.timeout,
+        output=args.output,
+        open_browser=args.open,
+    )
 
 
 def _export_reports(summary, config) -> None:

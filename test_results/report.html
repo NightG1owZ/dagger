@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PerfScanner 接口性能报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Roboto, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 24px; }
+h1 { color: #00d4ff; margin-bottom: 6px; font-size: 1.6em; }
+.subtitle { color: #888; margin-bottom: 24px; font-size: 0.9em; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.card { background: #16213e; border-radius: 10px; padding: 20px; }
+.card .value { font-size: 1.8em; font-weight: bold; color: #00d4ff; overflow-wrap: anywhere; }
+.card .label { font-size: 0.85em; color: #888; margin-top: 6px; }
+.chart-container { background: #16213e; border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+.chart-container h2 { color: #aaa; font-size: 1.05em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+.search { margin-bottom: 16px; display: flex; gap: 8px; align-items: center; }
+.search input { flex: 1; max-width: 420px; padding: 10px 14px; border: 1px solid #333; border-radius: 8px; background: #16213e; color: #e0e0e0; font-size: 0.95em; }
+.search input:focus { outline: none; border-color: #00d4ff; }
+.table-wrap { overflow-x: auto; background: #16213e; border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 11px 14px; text-align: left; white-space: nowrap; }
+th { background: #0f3460; color: #00d4ff; font-weight: 600; cursor: pointer; user-select: none; }
+th:hover { background: #123b6b; }
+tr:not(:last-child) td { border-bottom: 1px solid #1a1a3e; }
+tr:hover td { background: #1c2a4a; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.75em; font-weight: 600; }
+.badge.deep { background: #e65100; color: #fff; }
+.badge.quick { background: #455a64; color: #fff; }
+.badge.ok { background: #1b5e20; color: #fff; }
+.badge.warn { background: #b71c1c; color: #fff; }
+.method { font-weight: 700; color: #4db8ff; }
+.slow { color: #ff5252; font-weight: 600; }
+.footer { text-align: center; color: #666; margin-top: 24px; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<h1>PerfScanner 接口性能报告</h1>
+<div class="subtitle">目标: http://localhost:8101/api · 生成时间: 2026-08-15 03:06:11 中国标准时间</div>
+
+<div class="cards">
+  <div class="card"><div class="value">13</div><div class="label">总接口数</div></div>
+  <div class="card"><div class="value">/info</div><div class="label">最慢接口</div></div>
+  <div class="card"><div class="value">238.57 ms</div><div class="label">平均 P95</div></div>
+  <div class="card"><div class="value">3</div><div class="label">深度测试接口数</div></div>
+</div>
+
+<div class="chart-container">
+  <h2>接口 P95 响应时间排行 (从慢到快)</h2>
+  <canvas id="rankChart" style="max-height: 340px;"></canvas>
+</div>
+
+<div class="search">
+  <input id="searchInput" type="text" placeholder="搜索接口 URL / 方法 / 路径 ...">
+</div>
+
+<div class="table-wrap">
+<table id="rankTable">
+  <thead>
+    <tr>
+      <th data-key="rank">排名</th>
+      <th data-key="method">方法</th>
+      <th data-key="path">URL</th>
+      <th data-key="p95_ms">P95 (ms)</th>
+      <th data-key="p99_ms">P99 (ms)</th>
+      <th data-key="mean_ms">均值 (ms)</th>
+      <th data-key="success_rate">成功率</th>
+      <th data-key="phase">阶段</th>
+      <th data-key="status">状态</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr data-search="get /info http://localhost:8101/api/info infocontroller getsiteinfo">
+      <td>1</td>
+      <td class="method">GET</td>
+      <td title="http://localhost:8101/api/info">/info</td>
+      <td class="slow">3016.24</td>
+      <td>3016.44</td>
+      <td>3010.04</td>
+      <td>0.0%</td>
+      <td><span class="badge deep">deep</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /post/list http://localhost:8101/api/post/list postcontroller listposts">
+      <td>2</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/post/list">/post/list</td>
+      <td class="slow">21.16</td>
+      <td>21.49</td>
+      <td>7.93</td>
+      <td>0.0%</td>
+      <td><span class="badge deep">deep</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /user/register http://localhost:8101/api/user/register usercontroller register">
+      <td>3</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/user/register">/user/register</td>
+      <td class="slow">20.47</td>
+      <td>20.69</td>
+      <td>7.72</td>
+      <td>0.0%</td>
+      <td><span class="badge deep">deep</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /user/update http://localhost:8101/api/user/update usercontroller updateuser">
+      <td>4</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/user/update">/user/update</td>
+      <td class="slow">8.86</td>
+      <td>9.0</td>
+      <td>6.57</td>
+      <td>0.0%</td>
+      <td><span class="badge quick">quick</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /post/create http://localhost:8101/api/post/create postcontroller createpost">
+      <td>5</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/post/create">/post/create</td>
+      <td class="slow">5.53</td>
+      <td>5.54</td>
+      <td>4.49</td>
+      <td>0.0%</td>
+      <td><span class="badge quick">quick</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /user/create http://localhost:8101/api/user/create usercontroller createuser">
+      <td>6</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/user/create">/user/create</td>
+      <td class="slow">4.86</td>
+      <td>4.89</td>
+      <td>3.64</td>
+      <td>0.0%</td>
+      <td><span class="badge quick">quick</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="get /post/get http://localhost:8101/api/post/get postcontroller getpostbyid">
+      <td>7</td>
+      <td class="method">GET</td>
+      <td title="http://localhost:8101/api/post/get">/post/get</td>
+      <td class="slow">4.74</td>
+      <td>4.75</td>
+      <td>4.36</td>
+      <td>0.0%</td>
+      <td><span class="badge quick">quick</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /post/update http://localhost:8101/api/post/update postcontroller updatepost">
+      <td>8</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/post/update">/post/update</td>
+      <td class="slow">3.94</td>
+      <td>4.26</td>
+      <td>2.27</td>
+      <td>0.0%</td>
+      <td><span class="badge quick">quick</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /user/delete http://localhost:8101/api/user/delete usercontroller deleteuser">
+      <td>9</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/user/delete">/user/delete</td>
+      <td class="slow">3.94</td>
+      <td>3.95</td>
+      <td>3.66</td>
+      <td>0.0%</td>
+      <td><span class="badge quick">quick</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /user/list http://localhost:8101/api/user/list usercontroller listusers">
+      <td>10</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/user/list">/user/list</td>
+      <td class="slow">3.47</td>
+      <td>3.49</td>
+      <td>2.98</td>
+      <td>0.0%</td>
+      <td><span class="badge quick">quick</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /user/login http://localhost:8101/api/user/login usercontroller login">
+      <td>11</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/user/login">/user/login</td>
+      <td class="slow">2.94</td>
+      <td>3.02</td>
+      <td>2.1</td>
+      <td>0.0%</td>
+      <td><span class="badge quick">quick</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /post/delete http://localhost:8101/api/post/delete postcontroller deletepost">
+      <td>12</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/post/delete">/post/delete</td>
+      <td class="slow">2.86</td>
+      <td>2.86</td>
+      <td>2.26</td>
+      <td>0.0%</td>
+      <td><span class="badge quick">quick</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="get /user/get http://localhost:8101/api/user/get usercontroller getuserbyid">
+      <td>13</td>
+      <td class="method">GET</td>
+      <td title="http://localhost:8101/api/user/get">/user/get</td>
+      <td class="slow">2.38</td>
+      <td>2.53</td>
+      <td>1.78</td>
+      <td>0.0%</td>
+      <td><span class="badge quick">quick</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+  </tbody>
+</table>
+</div>
+
+<div class="footer">Generated by PerfScanner v0.1.0</div>
+
+<script>
+const ctx = document.getElementById('rankChart').getContext('2d');
+const labels = ["GET /info", "POST /post/list", "POST /user/register", "POST /user/update", "POST /post/create", "POST /user/create", "GET /post/get", "POST /post/update", "POST /user/delete", "POST /user/list", "POST /user/login", "POST /post/delete", "GET /user/get"];
+const data = [3016.24, 21.16, 20.47, 8.86, 5.53, 4.86, 4.74, 3.94, 3.94, 3.47, 2.94, 2.86, 2.38];
+
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'P95 (ms)',
+      data: data,
+      backgroundColor: labels.map((_, i) => 'rgba(0, 212, 255, ' + (0.4 + 0.6 * (1 - i / Math.max(1, labels.length - 1))) + ')'),
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (c) => c.raw + ' ms' } }
+    },
+    scales: {
+      x: { ticks: { color: '#aaa' }, grid: { color: '#333' }, title: { display: true, text: 'P95 响应时间 (ms)', color: '#00d4ff' } },
+      y: { ticks: { color: '#aaa', autoSkip: false }, grid: { display: false } }
+    }
+  }
+});
+
+// Client-side search
+const input = document.getElementById('searchInput');
+input.addEventListener('input', () => {
+  const q = input.value.trim().toLowerCase();
+  document.querySelectorAll('#rankTable tbody tr').forEach(tr => {
+    tr.style.display = tr.dataset.search.includes(q) ? '' : 'none';
+  });
+});
+
+// Client-side column sort
+document.querySelectorAll('#rankTable th').forEach(th => {
+  th.addEventListener('click', () => {
+    const key = th.dataset.key;
+    const tbody = document.querySelector('#rankTable tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const asc = th.dataset.asc !== 'true';
+    th.dataset.asc = String(asc);
+    rows.sort((a, b) => {
+      const av = a.children[[...th.parentNode.children].indexOf(th)].textContent;
+      const bv = b.children[[...th.parentNode.children].indexOf(th)].textContent;
+      const an = parseFloat(av), bn = parseFloat(bv);
+      const avv = isNaN(an) ? av.trim() : an;
+      const bvv = isNaN(bn) ? bv.trim() : bn;
+      return (avv < bvv ? -1 : avv > bvv ? 1 : 0) * (asc ? 1 : -1);
+    });
+    rows.forEach(r => tbody.appendChild(r));
+  });
+});
+</script>
+</body>
+</html>
