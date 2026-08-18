@@ -43,6 +43,8 @@ dagger plugins list
 
 # Run from a YAML config file
 dagger run --config-file dagger.yaml
+
+dagger scan D:\31124\Devtools\DASH\glow\src\main\java\com\night\glow\controller --base-url http://localhost:8101/api -c 5 --quick-requests 50 -n 2000 --deep-threshold 20 -t 30 -o ./perf_results
 ```
 
 ---
