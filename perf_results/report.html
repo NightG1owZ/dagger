@@ -38,13 +38,13 @@ tr:hover td { background: #1c2a4a; }
 </head>
 <body>
 <h1>PerfScanner 接口性能报告</h1>
-<div class="subtitle">目标: http://localhost:8101/api · 生成时间: 2026-08-15 10:07:02 中国标准时间</div>
+<div class="subtitle">目标: http://localhost:8101/api · 生成时间: 2026-08-15 10:12:33 中国标准时间</div>
 
 <div class="cards">
   <div class="card"><div class="value">13</div><div class="label">总接口数</div></div>
-  <div class="card"><div class="value">/info</div><div class="label">最慢接口</div></div>
-  <div class="card"><div class="value">265.09 ms</div><div class="label">平均 P95</div></div>
-  <div class="card"><div class="value">2</div><div class="label">深度测试接口数</div></div>
+  <div class="card"><div class="value">/user/get</div><div class="label">最慢接口</div></div>
+  <div class="card"><div class="value">21.61 ms</div><div class="label">平均 P95</div></div>
+  <div class="card"><div class="value">13</div><div class="label">深度测试接口数</div></div>
 </div>
 
 <div class="chart-container">
@@ -73,13 +73,13 @@ tr:hover td { background: #1c2a4a; }
   </thead>
   <tbody>
     
-    <tr data-search="get /info http://localhost:8101/api/info infocontroller getsiteinfo">
+    <tr data-search="get /user/get http://localhost:8101/api/user/get usercontroller getuserbyid">
       <td>1</td>
       <td class="method">GET</td>
-      <td title="http://localhost:8101/api/info">/info</td>
-      <td class="slow">3006.89</td>
-      <td>3006.9</td>
-      <td>3006.62</td>
+      <td title="http://localhost:8101/api/user/get">/user/get</td>
+      <td class="slow">38.72</td>
+      <td>56.62</td>
+      <td>22.68</td>
       <td>0.0%</td>
       <td><span class="badge deep">deep</span></td>
       <td>
@@ -93,73 +93,9 @@ tr:hover td { background: #1c2a4a; }
       <td>2</td>
       <td class="method">GET</td>
       <td title="http://localhost:8101/api/post/get">/post/get</td>
-      <td class="slow">94.94</td>
-      <td>94.94</td>
-      <td>94.64</td>
-      <td>0.0%</td>
-      <td><span class="badge quick">quick</span></td>
-      <td>
-        
-        <span class="badge warn">异常</span>
-        
-      </td>
-    </tr>
-    
-    <tr data-search="post /user/delete http://localhost:8101/api/user/delete usercontroller deleteuser">
-      <td>3</td>
-      <td class="method">POST</td>
-      <td title="http://localhost:8101/api/user/delete">/user/delete</td>
-      <td class="slow">93.95</td>
-      <td>93.95</td>
-      <td>93.81</td>
-      <td>0.0%</td>
-      <td><span class="badge quick">quick</span></td>
-      <td>
-        
-        <span class="badge warn">异常</span>
-        
-      </td>
-    </tr>
-    
-    <tr data-search="post /post/delete http://localhost:8101/api/post/delete postcontroller deletepost">
-      <td>4</td>
-      <td class="method">POST</td>
-      <td title="http://localhost:8101/api/post/delete">/post/delete</td>
-      <td class="slow">93.87</td>
-      <td>93.88</td>
-      <td>93.71</td>
-      <td>0.0%</td>
-      <td><span class="badge quick">quick</span></td>
-      <td>
-        
-        <span class="badge warn">异常</span>
-        
-      </td>
-    </tr>
-    
-    <tr data-search="post /user/create http://localhost:8101/api/user/create usercontroller createuser">
-      <td>5</td>
-      <td class="method">POST</td>
-      <td title="http://localhost:8101/api/user/create">/user/create</td>
-      <td class="slow">93.71</td>
-      <td>93.73</td>
-      <td>93.44</td>
-      <td>0.0%</td>
-      <td><span class="badge quick">quick</span></td>
-      <td>
-        
-        <span class="badge warn">异常</span>
-        
-      </td>
-    </tr>
-    
-    <tr data-search="get /user/get http://localhost:8101/api/user/get usercontroller getuserbyid">
-      <td>6</td>
-      <td class="method">GET</td>
-      <td title="http://localhost:8101/api/user/get">/user/get</td>
-      <td class="slow">17.71</td>
-      <td>17.75</td>
-      <td>14.06</td>
+      <td class="slow">37.96</td>
+      <td>50.05</td>
+      <td>22.51</td>
       <td>0.0%</td>
       <td><span class="badge deep">deep</span></td>
       <td>
@@ -169,15 +105,79 @@ tr:hover td { background: #1c2a4a; }
       </td>
     </tr>
     
-    <tr data-search="post /user/list http://localhost:8101/api/user/list usercontroller listusers">
+    <tr data-search="post /user/update http://localhost:8101/api/user/update usercontroller updateuser">
+      <td>3</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/user/update">/user/update</td>
+      <td class="slow">26.21</td>
+      <td>45.93</td>
+      <td>10.4</td>
+      <td>0.0%</td>
+      <td><span class="badge deep">deep</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /post/update http://localhost:8101/api/post/update postcontroller updatepost">
+      <td>4</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/post/update">/post/update</td>
+      <td class="slow">25.25</td>
+      <td>37.94</td>
+      <td>10.07</td>
+      <td>0.0%</td>
+      <td><span class="badge deep">deep</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /user/register http://localhost:8101/api/user/register usercontroller register">
+      <td>5</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/user/register">/user/register</td>
+      <td class="slow">24.75</td>
+      <td>36.83</td>
+      <td>10.02</td>
+      <td>0.0%</td>
+      <td><span class="badge deep">deep</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /post/delete http://localhost:8101/api/post/delete postcontroller deletepost">
+      <td>6</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/post/delete">/post/delete</td>
+      <td class="slow">23.83</td>
+      <td>32.09</td>
+      <td>9.17</td>
+      <td>0.0%</td>
+      <td><span class="badge deep">deep</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /post/create http://localhost:8101/api/post/create postcontroller createpost">
       <td>7</td>
       <td class="method">POST</td>
-      <td title="http://localhost:8101/api/user/list">/user/list</td>
-      <td class="slow">10.83</td>
-      <td>10.84</td>
-      <td>9.95</td>
+      <td title="http://localhost:8101/api/post/create">/post/create</td>
+      <td class="slow">23.72</td>
+      <td>37.09</td>
+      <td>9.49</td>
       <td>0.0%</td>
-      <td><span class="badge quick">quick</span></td>
+      <td><span class="badge deep">deep</span></td>
       <td>
         
         <span class="badge warn">异常</span>
@@ -189,59 +189,11 @@ tr:hover td { background: #1c2a4a; }
       <td>8</td>
       <td class="method">POST</td>
       <td title="http://localhost:8101/api/user/login">/user/login</td>
-      <td class="slow">9.64</td>
-      <td>9.67</td>
-      <td>9.51</td>
+      <td class="slow">22.07</td>
+      <td>31.18</td>
+      <td>8.97</td>
       <td>0.0%</td>
-      <td><span class="badge quick">quick</span></td>
-      <td>
-        
-        <span class="badge warn">异常</span>
-        
-      </td>
-    </tr>
-    
-    <tr data-search="post /post/update http://localhost:8101/api/post/update postcontroller updatepost">
-      <td>9</td>
-      <td class="method">POST</td>
-      <td title="http://localhost:8101/api/post/update">/post/update</td>
-      <td class="slow">6.99</td>
-      <td>7.19</td>
-      <td>5.87</td>
-      <td>0.0%</td>
-      <td><span class="badge quick">quick</span></td>
-      <td>
-        
-        <span class="badge warn">异常</span>
-        
-      </td>
-    </tr>
-    
-    <tr data-search="post /user/update http://localhost:8101/api/user/update usercontroller updateuser">
-      <td>10</td>
-      <td class="method">POST</td>
-      <td title="http://localhost:8101/api/user/update">/user/update</td>
-      <td class="slow">5.66</td>
-      <td>5.67</td>
-      <td>5.48</td>
-      <td>0.0%</td>
-      <td><span class="badge quick">quick</span></td>
-      <td>
-        
-        <span class="badge warn">异常</span>
-        
-      </td>
-    </tr>
-    
-    <tr data-search="post /post/create http://localhost:8101/api/post/create postcontroller createpost">
-      <td>11</td>
-      <td class="method">POST</td>
-      <td title="http://localhost:8101/api/post/create">/post/create</td>
-      <td class="slow">5.34</td>
-      <td>5.34</td>
-      <td>5.23</td>
-      <td>0.0%</td>
-      <td><span class="badge quick">quick</span></td>
+      <td><span class="badge deep">deep</span></td>
       <td>
         
         <span class="badge warn">异常</span>
@@ -250,14 +202,14 @@ tr:hover td { background: #1c2a4a; }
     </tr>
     
     <tr data-search="post /post/list http://localhost:8101/api/post/list postcontroller listposts">
-      <td>12</td>
+      <td>9</td>
       <td class="method">POST</td>
       <td title="http://localhost:8101/api/post/list">/post/list</td>
-      <td class="slow">4.07</td>
-      <td>4.13</td>
-      <td>3.49</td>
+      <td class="slow">14.31</td>
+      <td>24.3</td>
+      <td>7.01</td>
       <td>0.0%</td>
-      <td><span class="badge quick">quick</span></td>
+      <td><span class="badge deep">deep</span></td>
       <td>
         
         <span class="badge warn">异常</span>
@@ -265,18 +217,66 @@ tr:hover td { background: #1c2a4a; }
       </td>
     </tr>
     
-    <tr data-search="post /user/register http://localhost:8101/api/user/register usercontroller register">
-      <td>13</td>
+    <tr data-search="post /user/create http://localhost:8101/api/user/create usercontroller createuser">
+      <td>10</td>
       <td class="method">POST</td>
-      <td title="http://localhost:8101/api/user/register">/user/register</td>
-      <td class="slow">2.59</td>
-      <td>2.68</td>
-      <td>1.87</td>
+      <td title="http://localhost:8101/api/user/create">/user/create</td>
+      <td class="slow">14.29</td>
+      <td>34.8</td>
+      <td>7.06</td>
       <td>0.0%</td>
-      <td><span class="badge quick">quick</span></td>
+      <td><span class="badge deep">deep</span></td>
       <td>
         
         <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /user/list http://localhost:8101/api/user/list usercontroller listusers">
+      <td>11</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/user/list">/user/list</td>
+      <td class="slow">12.04</td>
+      <td>25.79</td>
+      <td>6.6</td>
+      <td>0.0%</td>
+      <td><span class="badge deep">deep</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="post /user/delete http://localhost:8101/api/user/delete usercontroller deleteuser">
+      <td>12</td>
+      <td class="method">POST</td>
+      <td title="http://localhost:8101/api/user/delete">/user/delete</td>
+      <td class="slow">11.68</td>
+      <td>24.68</td>
+      <td>6.41</td>
+      <td>0.0%</td>
+      <td><span class="badge deep">deep</span></td>
+      <td>
+        
+        <span class="badge warn">异常</span>
+        
+      </td>
+    </tr>
+    
+    <tr data-search="get /info http://localhost:8101/api/info infocontroller getsiteinfo">
+      <td>13</td>
+      <td class="method">GET</td>
+      <td title="http://localhost:8101/api/info">/info</td>
+      <td class="slow">6.14</td>
+      <td>18226.95</td>
+      <td>292.88</td>
+      <td>100.0%</td>
+      <td><span class="badge deep">deep</span></td>
+      <td>
+        
+        <span class="badge ok">正常</span>
         
       </td>
     </tr>
@@ -289,8 +289,8 @@ tr:hover td { background: #1c2a4a; }
 
 <script>
 const ctx = document.getElementById('rankChart').getContext('2d');
-const labels = ["GET /info", "GET /post/get", "POST /user/delete", "POST /post/delete", "POST /user/create", "GET /user/get", "POST /user/list", "POST /user/login", "POST /post/update", "POST /user/update", "POST /post/create", "POST /post/list", "POST /user/register"];
-const data = [3006.89, 94.94, 93.95, 93.87, 93.71, 17.71, 10.83, 9.64, 6.99, 5.66, 5.34, 4.07, 2.59];
+const labels = ["GET /user/get", "GET /post/get", "POST /user/update", "POST /post/update", "POST /user/register", "POST /post/delete", "POST /post/create", "POST /user/login", "POST /post/list", "POST /user/create", "POST /user/list", "POST /user/delete", "GET /info"];
+const data = [38.72, 37.96, 26.21, 25.25, 24.75, 23.83, 23.72, 22.07, 14.31, 14.29, 12.04, 11.68, 6.14];
 
 new Chart(ctx, {
   type: 'bar',

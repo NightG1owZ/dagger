@@ -30,8 +30,17 @@ def build_report_data(
                 "min_ms": round(m.min * 1000.0, 2),
                 "max_ms": round(m.max * 1000.0, 2),
                 "success_rate": round(m.success_rate, 2),
+                "error_rate": round(m.error_rate, 2),
+                "success_count": m.success_count,
+                "server_errors": m.server_error_count,
+                "client_errors": m.client_error_count,
+                "timeouts": m.timeout_count,
+                "harness_errors": m.harness_error_count,
+                "retries": m.retry_count,
+                "dropped": m.dropped,
                 "requests": m.requests_sent,
                 "phase": m.phase,
+                "quality": m.quality,
                 "status_codes": {str(k): v for k, v in sorted(m.status_codes.items())},
                 "class_name": r.endpoint.class_name,
                 "method_name": r.endpoint.method_name,
@@ -39,13 +48,17 @@ def build_report_data(
             }
         )
 
-    p95s = [e["p95_ms"] for e in endpoints]
+    with_success = [e for e in endpoints if e["success_count"] > 0]
+    p95s = [e["p95_ms"] for e in with_success]
+    slowest = with_success[0] if with_success else None
     return {
         "generated_at": generated_at,
         "base_url": base_url,
         "total_endpoints": len(endpoints),
         "deep_tested": sum(1 for e in endpoints if e["phase"] == "deep"),
-        "slowest_endpoint": endpoints[0]["path"] if endpoints else None,
+        "unstable_endpoints": sum(1 for e in endpoints if e["quality"] != "ok"),
+        "critical_endpoints": sum(1 for e in endpoints if e["quality"] == "critical"),
+        "slowest_endpoint": slowest["path"] if slowest else None,
         "average_p95_ms": round(sum(p95s) / len(p95s), 2) if p95s else 0.0,
         "endpoints": endpoints,
     }

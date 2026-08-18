@@ -67,8 +67,9 @@ tr:hover td { background: #1c2a4a; }
       <th data-key="p99_ms">P99 (ms)</th>
       <th data-key="mean_ms">均值 (ms)</th>
       <th data-key="success_rate">成功率</th>
+      <th data-key="error_rate">错误率</th>
       <th data-key="phase">阶段</th>
-      <th data-key="status">状态</th>
+      <th data-key="status">质量</th>
     </tr>
   </thead>
   <tbody>
@@ -77,18 +78,22 @@ tr:hover td { background: #1c2a4a; }
       <td>{{ e.rank }}</td>
       <td class="method">{{ e.method }}</td>
       <td title="{{ e.url }}">{{ e.path }}</td>
-      <td class="slow">{{ e.p95_ms }}</td>
-      <td>{{ e.p99_ms }}</td>
+      <td class="slow">{{ e.p95_ms if e.success_count > 0 else 'N/A' }}</td>
+      <td>{{ e.p99_ms if e.success_count > 0 else 'N/A' }}</td>
       <td>{{ e.mean_ms }}</td>
       <td>{{ e.success_rate }}%</td>
+      <td>{{ e.error_rate }}%</td>
       <td><span class="badge {{ e.phase }}">{{ 'deep' if e.phase == 'deep' else 'quick' }}</span></td>
       <td>
-        {% if e.success_rate >= 99 %}
-        <span class="badge ok">正常</span>
-        {% elif e.success_rate >= 80 %}
-        <span class="badge warn">降级</span>
+        {% if e.dropped %}
+        <span class="badge warn">⛔ 已丢弃</span>
+        {% endif %}
+        {% if e.quality == 'ok' %}
+        <span class="badge ok">🟢 正常</span>
+        {% elif e.quality == 'warn' %}
+        <span class="badge warn">🟡 警告</span>
         {% else %}
-        <span class="badge warn">异常</span>
+        <span class="badge warn">🔴 异常</span>
         {% endif %}
       </td>
     </tr>

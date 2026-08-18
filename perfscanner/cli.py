@@ -35,6 +35,15 @@ def cli() -> None:
     help="进入第二阶段的接口数量(整数)或比例(0~1 之间的小数).",
 )
 @click.option("--timeout", "-t", default=30, show_default=True, type=int, help="单次请求超时时间(秒).")
+@click.option("--max-retries", default=3, show_default=True, type=int, help="请求失败(传输错误/超时)的最大重试次数.")
+@click.option(
+    "--drop-failure-rate",
+    default=0.5,
+    show_default=True,
+    type=float,
+    help="失败率达到该阈值(0~1)后丢弃此接口; 设为大于 1 可禁用丢弃.",
+)
+@click.option("--min-requests-before-drop", default=10, show_default=True, type=int, help="至少完成多少请求后才允许触发丢弃.")
 @click.option("--output", "-o", default="./perf_results", show_default=True, type=click.Path(path_type=Path), help="输出目录.")
 @click.option("--open-browser", is_flag=True, help="报告生成后自动在浏览器打开.")
 def start(
@@ -46,10 +55,15 @@ def start(
     deep_requests: int,
     deep_threshold: float,
     timeout: int,
+    max_retries: int,
+    drop_failure_rate: float,
+    min_requests_before_drop: int,
     output: Path,
     open_browser: bool,
 ) -> None:
     """扫描 Java 项目并对接口进行压测排名."""
+    if drop_failure_rate > 1.0:
+        drop_failure_rate = None
     asyncio.run(
         run_scan(
             project_path,
@@ -60,6 +74,9 @@ def start(
             deep_requests=deep_requests,
             deep_threshold=deep_threshold,
             timeout=timeout,
+            max_retries=max_retries,
+            drop_failure_rate=drop_failure_rate,
+            min_requests_before_drop=min_requests_before_drop,
             output=output,
             open_browser=open_browser,
             console=console,

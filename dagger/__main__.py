@@ -144,6 +144,9 @@ async def _run_scan(args) -> None:
         deep_requests=args.deep_requests,
         deep_threshold=args.deep_threshold,
         timeout=args.timeout,
+        max_retries=args.max_retries,
+        drop_failure_rate=args.drop_failure_rate if args.drop_failure_rate <= 1.0 else None,
+        min_requests_before_drop=args.min_requests_before_drop,
         output=args.output,
         open_browser=args.open,
     )

@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "dagger"
 version = "0.1.0"
@@ -17,6 +21,7 @@ dependencies = [
     "jinja2>=3.1",
     "javalang>=0.13",
     "click>=8.1",
+    "pytest>=9.1.1",
 ]
 
 [project.optional-dependencies]
@@ -35,6 +40,13 @@ perf-tool = "perfscanner.__main__:main"
 [project.entry-points."dagger.plugins"]
 auth_bearer = "dagger.plugins.builtin.auth_bearer:AuthBearerPlugin"
 request_recorder = "dagger.plugins.builtin.request_recorder:RequestRecorderPlugin"
+
+[tool.setuptools.packages.find]
+include = ["dagger*", "perfscanner*"]
+
+[tool.setuptools.package-data]
+dagger = ["templates/*.html"]
+perfscanner = ["templates/*.html"]
 
 [tool.dagger]
 # Default test configuration (overridable via CLI)

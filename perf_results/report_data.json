@@ -1,0 +1,283 @@
+{
+  "generated_at": "2026-08-15 10:12:33 中国标准时间",
+  "base_url": "http://localhost:8101/api",
+  "total_endpoints": 13,
+  "deep_tested": 13,
+  "slowest_endpoint": "/user/get",
+  "average_p95_ms": 21.61,
+  "endpoints": [
+    {
+      "rank": 1,
+      "method": "GET",
+      "path": "/user/get",
+      "url": "http://localhost:8101/api/user/get",
+      "p95_ms": 38.72,
+      "p99_ms": 56.62,
+      "mean_ms": 22.68,
+      "median_ms": 22.95,
+      "min_ms": 3.18,
+      "max_ms": 98.43,
+      "success_rate": 0.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "400": 2000
+      },
+      "class_name": "UserController",
+      "method_name": "getUserById",
+      "source_file": "UserController.java"
+    },
+    {
+      "rank": 2,
+      "method": "GET",
+      "path": "/post/get",
+      "url": "http://localhost:8101/api/post/get",
+      "p95_ms": 37.96,
+      "p99_ms": 50.05,
+      "mean_ms": 22.51,
+      "median_ms": 22.81,
+      "min_ms": 3.24,
+      "max_ms": 103.42,
+      "success_rate": 0.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "400": 2000
+      },
+      "class_name": "PostController",
+      "method_name": "getPostById",
+      "source_file": "PostController.java"
+    },
+    {
+      "rank": 3,
+      "method": "POST",
+      "path": "/user/update",
+      "url": "http://localhost:8101/api/user/update",
+      "p95_ms": 26.21,
+      "p99_ms": 45.93,
+      "mean_ms": 10.4,
+      "median_ms": 7.71,
+      "min_ms": 2.95,
+      "max_ms": 95.77,
+      "success_rate": 0.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "415": 2000
+      },
+      "class_name": "UserController",
+      "method_name": "updateUser",
+      "source_file": "UserController.java"
+    },
+    {
+      "rank": 4,
+      "method": "POST",
+      "path": "/post/update",
+      "url": "http://localhost:8101/api/post/update",
+      "p95_ms": 25.25,
+      "p99_ms": 37.94,
+      "mean_ms": 10.07,
+      "median_ms": 7.65,
+      "min_ms": 2.34,
+      "max_ms": 93.01,
+      "success_rate": 0.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "415": 2000
+      },
+      "class_name": "PostController",
+      "method_name": "updatePost",
+      "source_file": "PostController.java"
+    },
+    {
+      "rank": 5,
+      "method": "POST",
+      "path": "/user/register",
+      "url": "http://localhost:8101/api/user/register",
+      "p95_ms": 24.75,
+      "p99_ms": 36.83,
+      "mean_ms": 10.02,
+      "median_ms": 7.6,
+      "min_ms": 1.63,
+      "max_ms": 108.03,
+      "success_rate": 0.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "415": 2000
+      },
+      "class_name": "UserController",
+      "method_name": "register",
+      "source_file": "UserController.java"
+    },
+    {
+      "rank": 6,
+      "method": "POST",
+      "path": "/post/delete",
+      "url": "http://localhost:8101/api/post/delete",
+      "p95_ms": 23.83,
+      "p99_ms": 32.09,
+      "mean_ms": 9.17,
+      "median_ms": 7.06,
+      "min_ms": 3.58,
+      "max_ms": 59.95,
+      "success_rate": 0.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "415": 2000
+      },
+      "class_name": "PostController",
+      "method_name": "deletePost",
+      "source_file": "PostController.java"
+    },
+    {
+      "rank": 7,
+      "method": "POST",
+      "path": "/post/create",
+      "url": "http://localhost:8101/api/post/create",
+      "p95_ms": 23.72,
+      "p99_ms": 37.09,
+      "mean_ms": 9.49,
+      "median_ms": 7.16,
+      "min_ms": 3.47,
+      "max_ms": 63.87,
+      "success_rate": 0.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "415": 2000
+      },
+      "class_name": "PostController",
+      "method_name": "createPost",
+      "source_file": "PostController.java"
+    },
+    {
+      "rank": 8,
+      "method": "POST",
+      "path": "/user/login",
+      "url": "http://localhost:8101/api/user/login",
+      "p95_ms": 22.07,
+      "p99_ms": 31.18,
+      "mean_ms": 8.97,
+      "median_ms": 7.01,
+      "min_ms": 3.54,
+      "max_ms": 44.55,
+      "success_rate": 0.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "415": 2000
+      },
+      "class_name": "UserController",
+      "method_name": "login",
+      "source_file": "UserController.java"
+    },
+    {
+      "rank": 9,
+      "method": "POST",
+      "path": "/post/list",
+      "url": "http://localhost:8101/api/post/list",
+      "p95_ms": 14.31,
+      "p99_ms": 24.3,
+      "mean_ms": 7.01,
+      "median_ms": 6.11,
+      "min_ms": 0.82,
+      "max_ms": 47.62,
+      "success_rate": 0.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "415": 2000
+      },
+      "class_name": "PostController",
+      "method_name": "listPosts",
+      "source_file": "PostController.java"
+    },
+    {
+      "rank": 10,
+      "method": "POST",
+      "path": "/user/create",
+      "url": "http://localhost:8101/api/user/create",
+      "p95_ms": 14.29,
+      "p99_ms": 34.8,
+      "mean_ms": 7.06,
+      "median_ms": 6.07,
+      "min_ms": 0.96,
+      "max_ms": 48.66,
+      "success_rate": 0.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "415": 2000
+      },
+      "class_name": "UserController",
+      "method_name": "createUser",
+      "source_file": "UserController.java"
+    },
+    {
+      "rank": 11,
+      "method": "POST",
+      "path": "/user/list",
+      "url": "http://localhost:8101/api/user/list",
+      "p95_ms": 12.04,
+      "p99_ms": 25.79,
+      "mean_ms": 6.6,
+      "median_ms": 5.93,
+      "min_ms": 0.86,
+      "max_ms": 51.56,
+      "success_rate": 0.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "415": 2000
+      },
+      "class_name": "UserController",
+      "method_name": "listUsers",
+      "source_file": "UserController.java"
+    },
+    {
+      "rank": 12,
+      "method": "POST",
+      "path": "/user/delete",
+      "url": "http://localhost:8101/api/user/delete",
+      "p95_ms": 11.68,
+      "p99_ms": 24.68,
+      "mean_ms": 6.41,
+      "median_ms": 5.89,
+      "min_ms": 0.82,
+      "max_ms": 41.95,
+      "success_rate": 0.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "415": 2000
+      },
+      "class_name": "UserController",
+      "method_name": "deleteUser",
+      "source_file": "UserController.java"
+    },
+    {
+      "rank": 13,
+      "method": "GET",
+      "path": "/info",
+      "url": "http://localhost:8101/api/info",
+      "p95_ms": 6.14,
+      "p99_ms": 18226.95,
+      "mean_ms": 292.88,
+      "median_ms": 3.73,
+      "min_ms": 2.02,
+      "max_ms": 28343.42,
+      "success_rate": 100.0,
+      "requests": 2000,
+      "phase": "deep",
+      "status_codes": {
+        "200": 2000
+      },
+      "class_name": "InfoController",
+      "method_name": "getSiteInfo",
+      "source_file": "InfoController.java"
+    }
+  ]
+}

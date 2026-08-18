@@ -46,6 +46,9 @@ async def run_scan(
     deep_requests: int = 2000,
     deep_threshold: float = 20.0,
     timeout: float = 30.0,
+    max_retries: int = 3,
+    drop_failure_rate: float | None = 0.5,
+    min_requests_before_drop: int = 10,
     output: Path | str = DEFAULT_OUTPUT,
     open_browser: bool = False,
     console: Console | None = None,
@@ -84,7 +87,14 @@ async def run_scan(
         )
         progress.update(task_id, advance=1, label=label)
 
-    engine = LoadEngine(base_url, timeout=timeout, max_parallel=max_parallel)
+    engine = LoadEngine(
+        base_url,
+        timeout=timeout,
+        max_parallel=max_parallel,
+        max_retries=max_retries,
+        drop_failure_rate=drop_failure_rate,
+        min_requests_before_drop=min_requests_before_drop,
+    )
     with progress:
         results = await engine.run_funnel(
             endpoints,
@@ -112,22 +122,35 @@ async def run_scan(
 
 
 def _print_summary(results: list[EndpointResult], console: Console) -> None:
-    table = Table(title="接口性能排行 (按 P95 从慢到快)", title_style="bold cyan")
+    table = Table(title="接口性能排行 (按成功请求 P95 从慢到快)", title_style="bold cyan")
     table.add_column("排名", justify="right", style="dim")
     table.add_column("方法", style="cyan")
     table.add_column("路径")
     table.add_column("P95 (ms)", justify="right", style="red")
     table.add_column("P99 (ms)", justify="right")
     table.add_column("成功率", justify="right")
+    table.add_column("错误率", justify="right")
+    table.add_column("质量", justify="center")
 
     for rank, r in enumerate(results[:20], 1):
         m = r.metrics
+        p95 = f"{m.p95_ms:.2f}" if m.has_success else "N/A"
+        p99 = f"{m.p99_ms:.2f}" if m.has_success else "N/A"
+        flag = {
+            "ok": "[green]正常[/green]",
+            "warn": "[yellow]警告[/yellow]",
+            "critical": "[red]异常[/red]",
+        }.get(m.quality, "—")
+        if m.dropped:
+            flag += " [dim]已丢弃[/dim]"
         table.add_row(
             str(rank),
             r.endpoint.http_method,
             r.endpoint.path,
-            f"{m.p95_ms:.2f}",
-            f"{m.p99_ms:.2f}",
+            p95,
+            p99,
             f"{m.success_rate:.1f}%",
+            f"{m.error_rate:.1f}%",
+            flag,
         )
     console.print(table)

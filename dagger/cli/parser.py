@@ -299,6 +299,19 @@ def build_root_parser() -> argparse.ArgumentParser:
         help="Per-request timeout in seconds (default: 30)",
     )
     scan_parser.add_argument(
+        "--max-retries", type=int, default=3, metavar="N",
+        help="Max retries per failed request (transport error/timeout; default: 3)",
+    )
+    scan_parser.add_argument(
+        "--drop-failure-rate", type=float, default=0.5, metavar="RATE",
+        help="Drop an endpoint once its failure rate reaches this 0-1 threshold "
+             "(default: 0.5; >1 disables dropping)",
+    )
+    scan_parser.add_argument(
+        "--min-requests-before-drop", type=int, default=10, metavar="N",
+        help="Minimum completed requests before an endpoint may be dropped (default: 10)",
+    )
+    scan_parser.add_argument(
         "-o", "--output", type=Path, default=Path("./perf_results"), metavar="DIR",
         help="Output directory (default: ./perf_results)",
     )
