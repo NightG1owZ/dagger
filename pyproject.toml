@@ -22,6 +22,7 @@ dependencies = [
     "javalang>=0.13",
     "click>=8.1",
     "pytest>=9.1.1",
+    "faker>=18",
 ]
 
 [project.optional-dependencies]
@@ -42,7 +43,7 @@ auth_bearer = "dagger.plugins.builtin.auth_bearer:AuthBearerPlugin"
 request_recorder = "dagger.plugins.builtin.request_recorder:RequestRecorderPlugin"
 
 [tool.setuptools.packages.find]
-include = ["dagger*", "perfscanner*"]
+include = ["dagger*", "perfscanner*", "java*"]
 
 [tool.setuptools.package-data]
 dagger = ["templates/*.html"]
@@ -56,7 +57,7 @@ perfscanner = ["templates/*.html"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
-testpaths = ["tests"]
+testpaths = ["tests", "java/tests"]
 
 [tool.ruff]
 line-length = 100

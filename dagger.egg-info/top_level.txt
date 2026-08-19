@@ -1,3 +1,4 @@
 dagger
 dagger_results
+java
 perfscanner
